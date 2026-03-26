@@ -335,3 +335,23 @@ tfoot tr td {
   .btn-outline { width: 100%; }
   th, td { padding: 9px 10px; }
 }
+
+/* ---- Balance Colors ---- */
+.bal-neg { color: #dc2626; font-weight: 600; }
+.bal-pos { color: #059669; font-weight: 600; }
+
+/* ---- Rate Info ---- */
+.rate-info {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: #eef2ff;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.rate-info strong {
+  color: var(--primary);
+}
