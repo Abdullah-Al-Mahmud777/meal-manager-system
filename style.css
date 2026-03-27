@@ -68,6 +68,13 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  align-items: stretch;
+}
+
+.grid-3 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .grid-2 {
@@ -354,4 +361,29 @@ tfoot tr td {
 
 .rate-info strong {
   color: var(--primary);
+}
+
+/* ---- Sync Status ---- */
+.sync-status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.sync-loading {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  animation: pulse 1.2s infinite;
+}
+
+.sync-ok {
+  background: rgba(255,255,255,0.25);
+  color: #d1fae5;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }

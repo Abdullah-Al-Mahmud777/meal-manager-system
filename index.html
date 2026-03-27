@@ -6,13 +6,19 @@
   <title>Meal Management System</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-brand">🍽️ MealManager</div>
-    <div class="nav-subtitle">Meal & Deposit Tracker</div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span id="syncStatus" class="sync-status sync-loading">Connecting...</span>
+      <div class="nav-subtitle">Meal & Deposit Tracker</div>
+    </div>
   </nav>
 
   <div class="container">

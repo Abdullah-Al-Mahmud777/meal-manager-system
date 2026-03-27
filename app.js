@@ -1,20 +1,51 @@
+// ---- Firebase Setup ----
+const firebaseConfig = {
+  databaseURL: "https://meal-2fb00-default-rtdb.firebaseio.com/"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const dbRef = db.ref('mealApp');
+
 // ---- State ----
-let state = JSON.parse(localStorage.getItem('mealApp')) || {
+let state = {
   users: [],
   meals: [],
   deposits: [],
-  mealRate: 50
+  mealRate: null
 };
 
 function save() {
-  localStorage.setItem('mealApp', JSON.stringify(state));
+  dbRef.set(state);
 }
 
-// migrate old data (lunchRate/dinnerRate → mealRate)
-if (!state.mealRate) state.mealRate = state.lunchRate || null;
-delete state.lunchRate;
-delete state.dinnerRate;
-save();
+// ---- Load from Firebase & init ----
+function loadAndInit() {
+  showSyncStatus('Connecting...');
+  dbRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      state = data;
+      // ensure arrays
+      state.users    = state.users    || [];
+      state.meals    = state.meals    || [];
+      state.deposits = state.deposits || [];
+      state.mealRate = state.mealRate || null;
+    }
+    document.getElementById('mealRate').value  = state.mealRate || '';
+    document.getElementById('mealDate').value  = new Date().toISOString().split('T')[0];
+    document.getElementById('pdfMonth').value  = new Date().toISOString().slice(0, 7);
+    populateSelects();
+    render();
+    showSyncStatus('Synced ✓', true);
+  });
+}
+
+function showSyncStatus(msg, ok = false) {
+  let el = document.getElementById('syncStatus');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'sync-status ' + (ok ? 'sync-ok' : 'sync-loading');
+}
 
 // ---- Toast ----
 function toast(msg) {
@@ -451,8 +482,4 @@ function render() {
 document.getElementById('filterUser').addEventListener('change', renderMealLog);
 
 // ---- Init ----
-document.getElementById('mealRate').value = state.mealRate || '';
-document.getElementById('mealDate').value = new Date().toISOString().split('T')[0];
-document.getElementById('pdfMonth').value = new Date().toISOString().slice(0, 7);
-populateSelects();
-render();
+loadAndInit();
